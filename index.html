@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Purple Love Letter</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap'); /* cursive font */
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #d8b4ff, #a084fc); /* light purple */
+  font-family: 'Dancing Script', cursive; /* cursive font */
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* envelope */
+.envelope {
+  position: relative;
+  width: 500px;   /* bigger box */
+  height: 320px;  /* bigger box */
+  background: #c084fc; /* light purple */
+  border-radius: 15px;
+  box-shadow: 0 0 35px rgba(200, 100, 255, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+.flap {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 250px solid transparent;
+  border-right: 250px solid transparent;
+  border-bottom: 160px solid #d8b4ff;
+  transform-origin: top;
+  transition: 1s;
+}
+
+.open .flap {
+  transform: rotateX(180deg);
+}
+
+/* letter */
+.letter {
+  position: absolute;
+  width: 420px;   /* bigger letter */
+  background: #e0b3ff; /* lighter purple */
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  transform: translateY(60px);
+  opacity: 0;
+  transition: 1s;
+  font-family: 'Dancing Script', cursive; /* cursive text */
+}
+
+.open .letter {
+  transform: translateY(-80px);
+  opacity: 1;
+}
+
+h1 {
+  margin-top: 0;
+  color: #9f7aea;
+}
+
+p {
+  font-size: 20px; /* slightly bigger text */
+  line-height: 1.6;
+  min-height: 140px;
+}
+
+.signature {
+  margin-top: 15px;
+  font-size: 24px; /* bigger signature */
+  color: #7f5af0;
+  font-family: 'Dancing Script', cursive;
+}
+
+/* glowing */
+.letter {
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px rgba(200, 100, 255, 0.5); }
+  to { box-shadow: 0 0 45px rgba(220, 120, 255, 0.9); }
+}
+
+/* floating hearts */
+.heart {
+  position: absolute;
+  color: #d9a6ff;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh) scale(1); opacity: 0.7; }
+  to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+}
+
+/* volume slider */
+.volume {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="kalapastanganAudio.mp4"></audio>
+
+<div class="envelope" id="envelope">
+  <div class="flap"></div>
+
+  <div class="letter">
+    <h1>💜 My babyyyy<33</h1>
+    <p id="typedText"></p>
+    <p class="signature">– scarlette&lt;3</p>
+  </div>
+</div>
+
+<input type="range" min="0" max="1" step="0.01" value="1" class="volume" id="volumeSlider">
+
+<script>
+const envelope = document.getElementById("envelope");
+const music = document.getElementById("bgMusic");
+const text = "HAII BABYYY HAPPY VALENTINESS i just want to say that iloveyouuusomuchhh and i just want to apologize because i always get jealous on 1 person and yk that and i hope you know that i always care about you and you always be my greatest love and sana kahit pagod na tayo sa isat isa wag tayong susuko ha? and thankyouuu for giving me another chance to be with you again im gonna be your number 1 supporter to everything and i hope na ma achieved mo yung dreams mo with or without me and sorry din kasi minsan nagkakatampuhan tayo lagi and i hope na mas tumagal tayo kesa dati and ihyk that im always be loyal to you:>>> and you gave me motivation to focus on my academics than last year and kahit may mahalin man akong iba or wala iba parin talaga pag ikaw kasi ikaw nayan e HAHAHHAHAH and thankyouu for everything that you did for me like your efforts i really appreciate that and kahit ano mang mangyari ikaw parin pipiliin ko sa huli and i hope na wag mona ulit ako iiwan kasi di ko kakayanin yon mawawalan ako ng pagasa because im really scared of loosing someone that i rlly loved and i hope you know that you are already enough for me and sana sabay tayong maggrow kagaya ng sinabi mo sakin HAHAHHA yun lang iloveyouusomuchh happy valentines babyy koo!!";
+const typedText = document.getElementById("typedText");
+const volumeSlider = document.getElementById("volumeSlider");
+
+let index = 0;
+let opened = false;
+
+/* click anywhere */
+document.body.addEventListener("click", () => {
+  if (!opened) {
+    envelope.classList.add("open");
+    music.play();
+    typeText();
+    opened = true;
+  }
+}, { once: true });
+
+/* typing effect */
+function typeText() {
+  if (index < text.length) {
+    typedText.innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeText, 40);
+  }
+}
+
+/* volume control */
+volumeSlider.addEventListener("input", () => {
+  music.volume = volumeSlider.value;
+});
+
+/* floating hearts */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "💜";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+  heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}
+
+setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
